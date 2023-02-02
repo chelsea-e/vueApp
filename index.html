@@ -88,7 +88,7 @@
               <div class="content col-lg-4 col-sm-6" v-for="lesson in filteredLessons" :key="lesson.id">
                 <div class="lessonForm">
                   <div class="mt-4 mb-2">
-                    <img v-bind:src="lesson.images" style="height: 50%; width: 100%" />
+                    <img v-bind:src="baseURL + '/' + lesson.images" style="height: 50%; width: 100%" />
                   </div>
                   <br />
                   <p><i v-bind:class="lesson.icon"></i></p>
@@ -139,7 +139,7 @@
             <div class="col-lg-4 col-sm-6" v-for="lesson in cart">
               <div class="content lessonForm">
                 <div class="mt-4 mb-2">
-                  <img v-bind:src="lesson.images" style="height: 50%; width: 100%" />
+                  <img v-bind:src="baseURL + '/' + lesson.images" style="height: 50%; width: 100%" />
                 </div>
                 <br />
                 <p><i v-bind:class="lesson.icon"></i></p>
@@ -185,8 +185,7 @@
     </div>
     <!-- Cart Page ends -->
   </div>
-
-  <script src="lessons.js"></script>
+  
   <script src="app.js"></script>
 
 </body>

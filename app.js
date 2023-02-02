@@ -2,12 +2,13 @@ const app = new Vue({
   el: "#app",
   data: {
     page: "content",
-    lessons: lessons,
+    lessons: [],
     sorting: "price",
     cart: [],
     search: "",
     name: "",
     phone: "",
+    baseURL: "http://localhost:3000",
     error: {
       name: "",
       phone: "",
@@ -16,7 +17,23 @@ const app = new Vue({
     sortOption: "",
     orderOption: "",
   },
+  created: function () {
+     
+      this.fetchLessons();
+  },
   methods: {
+    // fetch lessons
+    fetchLessons() {
+      fetch(`${this.baseURL}/collections/lessons`).then(
+          function (response) {
+              response.json().then(
+                  function (json) {
+                      
+                      app.lessons = json;
+                  }
+              )
+          });
+  },
     // Add lesson to cart
     addtocart(lesson) {
       this.cart.push(lesson);
