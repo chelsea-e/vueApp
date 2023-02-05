@@ -8,7 +8,7 @@ const app = new Vue({
     search: "",
     name: "",
     phone: "",
-    baseURL: "http://webstore.us-east-1.elasticbeanstalk.com",
+    baseURL: "https://webstore-env.eba-b24bpdfp.eu-west-2.elasticbeanstalk.com/",
    
     disabled: [true, true],
     sortOption: "",
