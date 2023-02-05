@@ -85,7 +85,7 @@
             <br />
             <!-- Content of Lessons to be Purchased -->
             <div class="row g-4">
-              <div class="content col-lg-4 col-sm-6" v-for="lesson in filteredLessons" :key="lesson.id">
+              <div class="content col-lg-4 col-sm-6" v-for="lesson in lessons" :key="lesson.id">
                 <div class="lessonForm">
                   <div class="mt-4 mb-2">
                     <img v-bind:src="baseURL + '/' + lesson.images" style="height: 50%; width: 100%" />

@@ -31,6 +31,17 @@ const app = new Vue({
           )
         });
     },
+     // search lesson
+     searchLessons(searchText) {
+      fetch(`${this.baseURL}/collections/lessons/search/${searchText}`).then(
+          function (response) {
+              response.json().then(
+                  function (json) {
+                      app.lessons = json;
+                  }
+              )
+          });
+  },
     // method that inserts a new order with POST
     postOrder(jsonData) {
       fetch(`${this.baseURL}/collections/orders`, {
@@ -117,34 +128,6 @@ const app = new Vue({
       this.page = page;
     },
 
-    // Validation of name inputted the user
-    validateName(value) {
-      if (!value) {
-        this.error["name"] = "Your name cannot be left empty";
-        this.disabled = [false, this.disabled[1]];
-      } else if (!/^[A-Za-z\s]*$/.test(value)) {
-        this.error["name"] = "Your name must contain only letters";
-        this.disabled = [false, this.disabled[1]];
-      } else {
-        this.error["name"] = "";
-        this.disabled = [true, this.disabled[1]];
-      }
-
-    },
-
-    // Validation of phone number inputed the user
-    validatePhone(value) {
-      if (!value) {
-        this.error["phone"] = "Your phone number cannot be left empty";
-        this.disabled = [this.disabled[1], true];
-      } else if (!/^[0-9]*$/ || !/^[0-9]{11}$/.test(value)) {
-        this.error["phone"] = "Only 11 digits are valid";
-        this.disabled = [this.disabled[1], true];
-      } else {
-        this.error["phone"] = "";
-        this.disabled = [this.disabled[1], false];
-      }
-    },
     // validate name
     validateNameInput() {
       let result = /^[a-zA-Z]+$/.test(this.name);
@@ -179,31 +162,14 @@ const app = new Vue({
 
       this.navigateTo("content");
     },
-  },
-  // Number of lessons in the Cart
-  computed: {
-    cartItems: function () {
-      return this.cart.length || "";
-    },
-    // Search and Sort
-    filteredLessons() {
-      let tempLessons = this.lessons;
-
-      // Search Function
-      if (this.search != "" && this.search) {
-        tempLessons = tempLessons.filter((item) => {
-          return (
-            item.subject.toLowerCase().includes(this.search.toLowerCase()) ||
-            item.location.toLowerCase().includes(this.search.toLowerCase())
-          );
-        });
-      }
+     // Search and Sort
+     filteredLessons() {
       // Sort Function
-      tempLessons = tempLessons.sort((a, b) => {
+      this.lessons.sort((a, b) => {
         // Sorting according to subject
         if (this.sortOption == "subject") {
-          let fa = a.subject.toLowerCase(),
-            fb = b.subject.toLowerCase();
+          let fa = a.topic.toLowerCase(),
+            fb = b.topic.toLowerCase();
 
           if (fa < fb) {
             return -1;
@@ -238,11 +204,16 @@ const app = new Vue({
 
       // Sorting according to ascending/descending order
       if (this.orderOption === "desc") {
-        tempLessons.reverse();
+        this.lessons.reverse();
       }
-
-      return tempLessons;
     },
+  },
+  // Number of lessons in the Cart
+  computed: {
+    cartItems: function () {
+      return this.cart.length || "";
+    },
+   
     enableCheckoutButton: function () {
       var nameIsValid = this.validateNameInput();
       var phoneIsValid = this.validatePhoneInput();
@@ -255,6 +226,21 @@ const app = new Vue({
   },
   // User Details
   watch: {
-
+    sortOption: function () {
+      this.filteredLessons();
+  },
+  orderOption: function () {
+      this.filteredLessons()
+  },
+    search: {
+      handler(val) {
+        
+          if (val.trim() != '') {
+              this.searchLessons(val);
+          } else {
+              this.fetchLessons();
+          }
+      },
+  }
   },
 });
