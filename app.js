@@ -37,40 +37,50 @@ const app = new Vue({
     // method that inserts a new order with POST
     postOrder(jsonData) {
       fetch(`${this.baseURL}/collections/orders`, {
-          method: "POST",
-          body: JSON.stringify(jsonData),
-          headers: {
-              "Content-Type": "application/json"
-          }
+        method: "POST",
+        body: JSON.stringify(jsonData),
+        headers: {
+          "Content-Type": "application/json"
+        }
       }).then(response => response.json())
-          .then(responseData => {
-              console.log(responseData);
-          })
-          .catch(error => {
-              console.log(error);
-          });
-  },
-  // method to update lesson collection
-  updateLessonSpace( jsonData, _id) {
+        .then(responseData => {
+          console.log(responseData);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    // method to update lesson collection
+    updateLessonSpace(jsonData, _id) {
 
       fetch(`${this.baseURL}/collections/lessons/${_id}`, {
-          method: "PUT",
-          body: JSON.stringify(jsonData),
-          headers: {
-              "Content-Type": "application/json"
-          }
+        method: "PUT",
+        body: JSON.stringify(jsonData),
+        headers: {
+          "Content-Type": "application/json"
+        }
       }).then(response => response.json())
-          .then(responseData => {
-              console.log(responseData);
-          })
-          .catch(error => {
-              console.log(error);
-          });
-  },
+        .then(responseData => {
+          console.log(responseData);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     // Add lesson to cart
     addtocart(lesson) {
-      this.cart.push(lesson);
-      console.log(lesson)
+      --lesson.spaces;
+      // find selected lesson in cart
+      var lessonInCart = this.cart.find(u => u.lessonId == lesson._id);
+
+      // if lessonIncart is empty, add selected lesson to cart, otherwise update selected lesson spaces in cart
+      if (lessonInCart != null) {
+        ++lessonInCart.spaces;
+      } else {
+        lessonInCart = { lessonId: lesson._id, spaces: 1, lesson: lesson };
+        this.cart.push(lessonInCart);
+      }
+      console.log(this.cart)
     },
     // Remove lesson from cart
     removefromcart(id) {
@@ -134,17 +144,17 @@ const app = new Vue({
       this.cart.forEach((itemInCart) => {
 
         var order = {
-            lessonId: itemInCart.lessonId,
-            spaces: itemInCart.spaces,
-            name: this.name,
-            phoneNumber: this.phoneNumber
+          lessonId: itemInCart.lessonId,
+          spaces: itemInCart.spaces,
+          name: this.name,
+          phoneNumber: this.phoneNumber
         };
         this.postOrder(order);
 
         // update available lesson space with put
         var lessonToUpdate = { spaces: itemInCart.lecture.spaces }
         this.updateLesson(lessonToUpdate, itemInCart.lessonId);
-    });
+      });
       alert("Your order has been successfully submitted");
 
       this.cart = [];
