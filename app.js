@@ -84,24 +84,23 @@ const app = new Vue({
     },
     // Remove lesson from cart
     removefromcart(id) {
-      
       var itemInCart = this.cart.find(u => u.lessonId == id);
       console.log(itemInCart)
       if (itemInCart.spaces == 1) {
-          var index = this.cart.map(x => x.lessonId).indexOf(id);
-          this.cart.splice(index, 1);
+        var index = this.cart.map(x => x.lessonId).indexOf(id);
+        this.cart.splice(index, 1);
 
-          //when the cart is empty goes back to home page
-          if (this.cart.length <= 0) {
-            this.page = 'content'
-          }
+        //when the cart is empty goes back to home page
+        if (this.cart.length <= 0) {
+          this.page = 'content'
+        }
       } else {
-          --itemInCart.spaces;
+        --itemInCart.spaces;
       }
 
       // update lesson space
       var lesson = this.lessons.find(u => u._id == id);
-            ++lesson.spaces;
+      ++lesson.spaces;
     },
     // Checking to see if the user can add a lesson to cart
     canaddtocart(lesson) {
