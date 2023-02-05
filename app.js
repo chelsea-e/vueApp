@@ -18,25 +18,59 @@ const app = new Vue({
     orderOption: "",
   },
   created: function () {
-     
-      this.fetchLessons();
+
+    this.fetchLessons();
   },
   methods: {
     // fetch lessons
     fetchLessons() {
       fetch(`${this.baseURL}/collections/lessons`).then(
-          function (response) {
-              response.json().then(
-                  function (json) {
-                      
-                      app.lessons = json;
-                  }
-              )
+        function (response) {
+          response.json().then(
+            function (json) {
+
+              app.lessons = json;
+            }
+          )
+        });
+    },
+    // method that inserts a new order with POST
+    postOrder(jsonData) {
+      fetch(`${this.baseURL}/collections/orders`, {
+          method: "POST",
+          body: JSON.stringify(jsonData),
+          headers: {
+              "Content-Type": "application/json"
+          }
+      }).then(response => response.json())
+          .then(responseData => {
+              console.log(responseData);
+          })
+          .catch(error => {
+              console.log(error);
+          });
+  },
+  // method to update lesson collection
+  updateLessonSpace( jsonData, _id) {
+
+      fetch(`${this.baseURL}/collections/lessons/${_id}`, {
+          method: "PUT",
+          body: JSON.stringify(jsonData),
+          headers: {
+              "Content-Type": "application/json"
+          }
+      }).then(response => response.json())
+          .then(responseData => {
+              console.log(responseData);
+          })
+          .catch(error => {
+              console.log(error);
           });
   },
     // Add lesson to cart
     addtocart(lesson) {
       this.cart.push(lesson);
+      console.log(lesson)
     },
     // Remove lesson from cart
     removefromcart(id) {
@@ -95,6 +129,22 @@ const app = new Vue({
 
     // Confirmation of order submission 
     checkout() {
+
+      // insert and save new order
+      this.cart.forEach((itemInCart) => {
+
+        var order = {
+            lessonId: itemInCart.lessonId,
+            spaces: itemInCart.spaces,
+            name: this.name,
+            phoneNumber: this.phoneNumber
+        };
+        this.postOrder(order);
+
+        // update available lesson space with put
+        var lessonToUpdate = { spaces: itemInCart.lecture.spaces }
+        this.updateLesson(lessonToUpdate, itemInCart.lessonId);
+    });
       alert("Your order has been successfully submitted");
 
       this.cart = [];
@@ -134,8 +184,8 @@ const app = new Vue({
             return 1;
           }
           return 0;
-        } 
-          // Sorting according to location
+        }
+        // Sorting according to location
         else if (this.sortOption == "location") {
           let fa = a.location.toLowerCase(),
             fb = b.location.toLowerCase();
@@ -147,12 +197,12 @@ const app = new Vue({
             return 1;
           }
           return 0;
-        } 
-          // Sorting according to price
+        }
+        // Sorting according to price
         else if (this.sortOption == "price") {
           return a.price - b.price;
-        } 
-          // Sorting according to spaces
+        }
+        // Sorting according to spaces
         else if (this.sortOption == "stock") {
           return a.spaces - b.spaces;
         }
