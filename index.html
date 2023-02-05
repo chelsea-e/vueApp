@@ -97,8 +97,7 @@
                     <p><strong>Location: </strong>{{lesson.location}}</p>
                     <p><strong>Price: </strong>£{{lesson.price}}.00</p>
                     <p>
-                      <strong>Stock: </strong>{{lesson.spaces
-                      -cartSpace(lesson)}}
+                      <strong>Stock: </strong>{{lesson.spaces}}
                     </p>
                   </div>
                   <!-- Add to Cart Button -->
@@ -139,19 +138,19 @@
             <div class="col-lg-4 col-sm-6" v-for="lesson in cart">
               <div class="content lessonForm">
                 <div class="mt-4 mb-2">
-                  <img v-bind:src="baseURL + '/' + lesson.images" style="height: 50%; width: 100%" />
+                  <img v-bind:src="baseURL + '/' + lesson.lesson.images" style="height: 50%; width: 100%" />
                 </div>
                 <br />
                 <p><i v-bind:class="lesson.icon"></i></p>
                 <div class="content mt-4 mb-2">
-                  <p><strong>Subject: </strong>{{lesson.topic}}</p>
-                  <p><strong>Location: </strong>{{lesson.location}}</p>
-                  <p><strong>Price: </strong>£{{lesson.price}}.00</p>
-                  <!-- <p><strong>Stock: </strong>{{lesson.spaces -cartSpace(lesson)}}</p> -->
+                  <p><strong>Subject: </strong>{{lesson.lesson.topic}}</p>
+                  <p><strong>Location: </strong>{{lesson.lesson.location}}</p>
+                  <p><strong>Price: </strong>£{{lesson.lesson.price}}.00</p>
+                  <p><strong>Stock: </strong>{{ lesson.spaces }}</p>
                 </div>
                 <!-- Remove from Cart Button -->
                 <div class="button">
-                  <button class="btn btn-outline-success" id="add" v-on:click="removefromcart(lesson.id)">
+                  <button class="btn btn-outline-success" id="add" v-on:click="removefromcart(lesson.lesson._id)">
                     Reverse order
                   </button>
                 </div>
