@@ -9,10 +9,7 @@ const app = new Vue({
     name: "",
     phone: "",
     baseURL: "http://localhost:3000",
-    error: {
-      name: "",
-      phone: "",
-    },
+   
     disabled: [true, true],
     sortOption: "",
     orderOption: "",
@@ -80,12 +77,11 @@ const app = new Vue({
         lessonInCart = { lessonId: lesson._id, spaces: 1, lesson: lesson };
         this.cart.push(lessonInCart);
       }
-      console.log(this.cart)
     },
     // Remove lesson from cart
     removefromcart(id) {
       var itemInCart = this.cart.find(u => u.lessonId == id);
-      console.log(itemInCart)
+
       if (itemInCart.spaces == 1) {
         var index = this.cart.map(x => x.lessonId).indexOf(id);
         this.cart.splice(index, 1);
@@ -125,14 +121,15 @@ const app = new Vue({
     validateName(value) {
       if (!value) {
         this.error["name"] = "Your name cannot be left empty";
-        this.disabled = [true, this.disabled[1]];
+        this.disabled = [false, this.disabled[1]];
       } else if (!/^[A-Za-z\s]*$/.test(value)) {
         this.error["name"] = "Your name must contain only letters";
-        this.disabled = [true, this.disabled[1]];
+        this.disabled = [false, this.disabled[1]];
       } else {
         this.error["name"] = "";
-        this.disabled = [false, this.disabled[1]];
+        this.disabled = [true, this.disabled[1]];
       }
+
     },
 
     // Validation of phone number inputed the user
@@ -148,27 +145,36 @@ const app = new Vue({
         this.disabled = [this.disabled[1], false];
       }
     },
-
+    // validate name
+    validateNameInput() {
+      let result = /^[a-zA-Z]+$/.test(this.name);
+      return result;
+    },
+    // validate phone
+    validatePhoneInput() {
+      let result = /^\d+$/.test(this.phone);
+      return result;
+    },
     // Confirmation of order submission 
     checkout() {
 
-      // insert and save new order
+      // processing items in cart
       this.cart.forEach((itemInCart) => {
-
         var order = {
           lessonId: itemInCart.lessonId,
           spaces: itemInCart.spaces,
+          topic: itemInCart.lesson.topic,
           name: this.name,
-          phoneNumber: this.phoneNumber
+          phoneNumber: this.phone
         };
         this.postOrder(order);
 
         // update available lesson space with put
-        var lessonToUpdate = { spaces: itemInCart.lecture.spaces }
-        this.updateLesson(lessonToUpdate, itemInCart.lessonId);
+        var lessonToUpdate = { spaces: itemInCart.lesson.spaces }
+        this.updateLessonSpace(lessonToUpdate, itemInCart.lessonId);
       });
-      alert("Your order has been successfully submitted");
 
+      alert("Your order has been successfully submitted");
       this.cart = [];
 
       this.navigateTo("content");
@@ -237,14 +243,18 @@ const app = new Vue({
 
       return tempLessons;
     },
+    enableCheckoutButton: function () {
+      var nameIsValid = this.validateNameInput();
+      var phoneIsValid = this.validatePhoneInput();
+
+      if (nameIsValid && phoneIsValid) {
+        return true;
+      }
+      return false
+    }
   },
   // User Details
   watch: {
-    name(value) {
-      this.validateName(value);
-    },
-    phone(value) {
-      this.validatePhone(value);
-    },
+
   },
 });

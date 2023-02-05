@@ -161,21 +161,20 @@
 
           <!-- Checkout Validation -->
           <div class="user-details col-lg-12 col-sm-6" style="text-align: center;">
-            <form @submit.prevent="checkout" id="checkoutForm">
+            <form id="checkoutForm">
               <span><strong>Fill in the details below correctly</strong></span>
               <div class="input-box mb-4">
                 <input v-model="name" type="text" class="form-control" id="name" aria-describedby="name"
                   placeholder="Please enter your name">
-                <small v-if="error.name" id="name-error" class="form-text text-danger">{{ error.name }}</small>
               </div>
 
               <div class="input-box mb-4">
                 <input v-model="phone" type="tel" class="form-control" id="phone" aria-describedby="phone"
                   placeholder="Please enter your phone number">
-                <small v-if="error.phone" id="phone-error" class="form-text text-danger">{{ error.phone }}</small>
               </div>
               <br /><br />
-              <button type="submit" class="btn" :disabled="!disabled.every(i => i === false)">Checkout</button>
+              <button type="submit" class="btn" :disabled="!enableCheckoutButton" v-on:click="checkout">Checkout</button>
+              
             </form>
           </div>
           <br />
