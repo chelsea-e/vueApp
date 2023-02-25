@@ -9,7 +9,6 @@ const app = new Vue({
     name: "",
     phone: "",
     baseURL: "https://cst3145-env.eba-9sjt9wkg.eu-west-2.elasticbeanstalk.com",
-
     disabled: [true, true],
     sortOption: "",
     orderOption: "",
