@@ -18,10 +18,3 @@ https://cst3145-env.eba-9sjt9wkg.eu-west-2.elasticbeanstalk.com
     
     - <b>Lessons Route Server URL:</b> 
    https://cst3145-env.eba-9sjt9wkg.eu-west-2.elasticbeanstalk.com/lessons
-
-
-- Backend Server
-  - Node JS
-  - Express
-  - baseURL: https://cst3145-env.eba-9sjt9wkg.eu-west-2.elasticbeanstalk.com
-      
