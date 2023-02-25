@@ -8,20 +8,24 @@ const app = new Vue({
     search: "",
     name: "",
     phone: "",
-    baseURL: "https://webstore-env.eba-b24bpdfp.eu-west-2.elasticbeanstalk.com",
+    baseURL: "https://cst3145-env.eba-9sjt9wkg.eu-west-2.elasticbeanstalk.com",
 
     disabled: [true, true],
     sortOption: "",
     orderOption: "",
   },
   created: function () {
-
+    
     this.fetchLessons();
+    if ("serviceWorker" in navigator)
+    {
+      navigator.serviceWorker.register("service-worker.js");
+    }
   },
   methods: {
     // fetch lessons
     fetchLessons() {
-      fetch(`${this.baseURL}/collections/lessons`).then(
+      fetch(`${this.baseURL}/lessons`).then(
         function (response) {
           response.json().then(
             function (json) {
@@ -33,7 +37,7 @@ const app = new Vue({
     },
      // search lesson
      searchLessons(searchText) {
-      fetch(`${this.baseURL}/collections/lessons/search/${searchText}`).then(
+      fetch(`${this.baseURL}/lessons/search/${searchText}`).then(
           function (response) {
               response.json().then(
                   function (json) {
@@ -44,7 +48,7 @@ const app = new Vue({
   },
     // method that inserts a new order with POST
     postOrder(jsonData) {
-      fetch(`${this.baseURL}/collections/orders`, {
+      fetch(`${this.baseURL}/orders`, {
         method: "POST",
         body: JSON.stringify(jsonData),
         headers: {
@@ -61,7 +65,7 @@ const app = new Vue({
     // method to update lesson collection
     updateLessonSpace(jsonData, _id) {
 
-      fetch(`${this.baseURL}/collections/lessons/${_id}`, {
+      fetch(`${this.baseURL}/lessons/${_id}`, {
         method: "PUT",
         body: JSON.stringify(jsonData),
         headers: {
