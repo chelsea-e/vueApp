@@ -5,24 +5,23 @@
 # https://chelsea-e.github.io/vueApp/
 
 server url
-https://webstore-env.eba-b24bpdfp.eu-west-2.elasticbeanstalk.com
+https://cst3145-env.eba-9sjt9wkg.eu-west-2.elasticbeanstalk.com
 
 ---- <b>CST3145 Coursework-2</b> ----
     <br> <br>
     - Chelsea Chiamaka Ehimare - M00903284 - CE491@LIVE.MDX.AC.UK
       
-    - <b>Github Repo Client Vue JS URL:</b> https://github.com/chelsea-e/vueApp/ <br>
-    - <b>Github Repo Server Express JS URL:</b> https://github.com/chelsea-e/expressApp/ <br>
+    - <b>Github Repo for Vue.js PWA App:</b> https://github.com/chelsea-e/vueApp/ <br>
     
     - <b>Github page URL:</b> https://chelsea-e.github.io/vueApp/
-    - <b>AWS Server:</b> https://webstore-env.eba-b24bpdfp.eu-west-2.elasticbeanstalk.com
+    - <b>AWS Server:</b> https://cst3145-env.eba-9sjt9wkg.eu-west-2.elasticbeanstalk.com
     
     - <b>Lessons Route Server URL:</b> 
-   https://webstore-env.eba-b24bpdfp.eu-west-2.elasticbeanstalk.com/collections/lessons
+   https://cst3145-env.eba-9sjt9wkg.eu-west-2.elasticbeanstalk.com/lessons
 
 
 - Backend Server
   - Node JS
   - Express
-  - baseURL: https://webstore-env.eba-b24bpdfp.eu-west-2.elasticbeanstalk.com
+  - baseURL: https://cst3145-env.eba-9sjt9wkg.eu-west-2.elasticbeanstalk.com
       
